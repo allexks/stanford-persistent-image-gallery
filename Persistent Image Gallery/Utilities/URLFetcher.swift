@@ -12,7 +12,8 @@ class URLFetcher {
   static let shared = URLFetcher()
   private init() {}
   
-  private lazy var cache = URLCache(memoryCapacity: 1024 * 1024 * 50, diskCapacity: 1024 * 1024 * 50, diskPath: nil)
+  private let cacheLimitInBytes = 50 * 1025 * 1024 // 50 MB
+  private lazy var cache = URLCache(memoryCapacity: cacheLimitInBytes, diskCapacity: cacheLimitInBytes, diskPath: nil)
   
   func fetchImage(from url: URL, handler: @escaping (URL, UIImage, Data?, URLResponse?, Error?) -> Void) {
     URLSession.shared.dataTask(with: url.imageURL) { data, response, error in
@@ -27,6 +28,12 @@ class URLFetcher {
     }.resume()
   }
   
+  /// Check whether the image is in cache and get it.
+  /// If it is not, perform a data task in order to fetch it and cache it, then get it.
+  ///
+  /// - Parameters:
+  ///   - url: The URL of the image
+  ///   - handler: Completion handler. Accepts the fetched image as a parameter.
   func getCachedImage(from url: URL, handler: @escaping (UIImage)->Void) {
     let request = URLRequest(url: url.imageURL)
     

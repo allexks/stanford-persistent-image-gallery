@@ -29,7 +29,7 @@ class ImageGalleryViewController: UIViewController {
   private let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
   private let itemMinimumWidth: CGFloat = 20.0
   
-  private lazy var gallery: ImageGallery = ImageGallery([], title: "Untitled")
+  private lazy var gallery: ImageGallery = ImageGallery([], title: "Untitled") // this default value is used upon creation
 
   private lazy var fetcher = URLFetcher.shared
   
@@ -216,6 +216,7 @@ extension ImageGalleryViewController: UICollectionViewDropDelegate {
       if let sourceIndexPath = dropItem.sourceIndexPath {
         // local drag n drop
         let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(row: gallery.count-1, section: 0)
+        // the minus one prevents crash on rearranging of collection view items
           collectionView.performBatchUpdates({
             let imageData = getImageData(at: sourceIndexPath)
             removeImage(at: sourceIndexPath)

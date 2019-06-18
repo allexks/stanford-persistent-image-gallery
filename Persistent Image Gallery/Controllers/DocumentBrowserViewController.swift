@@ -25,10 +25,10 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
     allowsPickingMultipleItems = false
     
     if UIDevice.current.userInterfaceIdiom == .pad {
-      template = try?  FileManager.default.url(for: .applicationSupportDirectory,
-                                               in: .userDomainMask,
-                                               appropriateFor: nil,
-                                               create: true
+      template = try? FileManager.default.url(for: .applicationSupportDirectory,
+                                              in: .userDomainMask,
+                                              appropriateFor: nil,
+                                              create: true
         ).appendingPathComponent("Untitled.json")
       
       if let template = template {
