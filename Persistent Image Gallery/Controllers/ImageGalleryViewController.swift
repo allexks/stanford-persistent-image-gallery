@@ -30,7 +30,7 @@ class ImageGalleryViewController: UIViewController {
   private let itemMinimumWidth: CGFloat = 20.0
   
   private lazy var gallery: ImageGallery = ImageGallery([], title: "Untitled")
-  
+
   private lazy var fetcher = URLFetcher.shared
   
   private var itemWidth: CGFloat = 200.0
@@ -141,9 +141,8 @@ extension ImageGalleryViewController: UICollectionViewDataSource {
       return UICollectionViewCell()
     }
     
-    cell.backgroundColor = .clear
     let url = getImageData(at: indexPath).url
-    fetcher.fetchImage(from: url){ (_, image) in
+    fetcher.getCachedImage(from: url) { image in
       DispatchQueue.main.async {
         cell.image.image = image
       }
@@ -240,7 +239,7 @@ extension ImageGalleryViewController: UICollectionViewDropDelegate {
               print("Error fetching image for destination index path \(destinationIndexPath).")
               return
           }
-          self.fetcher.fetchImage(from: url) { (url, image) in
+          self.fetcher.getCachedImage(from: url) { image in
             let aspectRatio = Double(image.size.width / image.size.height)
             let newImageData = ImageGallery.ImageData(url: url, aspectRatio: aspectRatio)
             DispatchQueue.main.async {

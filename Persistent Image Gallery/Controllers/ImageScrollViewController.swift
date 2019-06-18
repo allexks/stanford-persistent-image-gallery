@@ -29,7 +29,7 @@ class ImageScrollViewController: UIViewController {
     super.viewWillAppear(animated)
     
     if let url = url {
-      fetcher.fetchImage(from: url) { [weak self] (_, image) in
+      fetcher.getCachedImage(from: url) { [weak self] image in
         guard let self = self else { return }
         DispatchQueue.main.async {
           self.imageView.image = image
