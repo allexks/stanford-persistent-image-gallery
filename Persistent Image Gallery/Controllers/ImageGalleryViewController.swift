@@ -41,17 +41,19 @@ class ImageGalleryViewController: UIViewController {
   
   // MARK: - View Controller Lifecycle
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
+  override func viewDidLoad() {
+    super.viewDidLoad()
     
-    document?.open{ [weak self] (success) in
+    document?.open { [weak self] (success) in
       guard let self = self else { return }
       if success {
         self.title = self.document?.localizedName
         self.gallery = self.document?.imageGallery ?? ImageGallery([], title: nil)
       } else {
-        assert(false)
-        // TODO
+        let alert = UIAlertController(title: "Could not open document.", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Done", style: .cancel) { _ in
+          self.dismiss(animated: true, completion: nil)
+        })
       }
       self.collectionView.reloadData()
     }
@@ -68,16 +70,8 @@ class ImageGalleryViewController: UIViewController {
     flowLayout?.invalidateLayout()
   }
   
-  @IBAction func onTapSaveButton(_ sender: UIBarButtonItem) {
-    save()
-  }
-  
   @IBAction func onTapDoneButton(_ sender: UIBarButtonItem) {
-    save()
-    document?.thumbnail = collectionView.snapshot
-    dismiss(animated: true) {
-      self.document?.close()
-    }
+    closeDocument()
   }
   
   // MARK: - Navigation
@@ -111,6 +105,13 @@ class ImageGalleryViewController: UIViewController {
     document?.imageGallery = gallery
     if document?.imageGallery != nil {
       document?.updateChangeCount(.done)
+    }
+  }
+  
+  private func closeDocument() {
+    document?.thumbnail = collectionView.snapshot
+    dismiss(animated: true) {
+      self.document?.close()
     }
   }
 }
@@ -222,8 +223,9 @@ extension ImageGalleryViewController: UICollectionViewDropDelegate {
             insertImage(imageData, at: destinationIndexPath)
             collectionView.deleteItems(at: [sourceIndexPath])
             collectionView.insertItems(at: [destinationIndexPath])
-          }, completion: { _ in
+          }, completion: { [weak self] _ in
             coordinator.drop(dropItem.dragItem, toItemAt: destinationIndexPath)
+            self?.save()
           })
       } else {
         // drop from outer space
@@ -244,6 +246,7 @@ extension ImageGalleryViewController: UICollectionViewDropDelegate {
             DispatchQueue.main.async {
               placeholder.commitInsertion { [weak self] indexPath in
                 self?.insertImage(newImageData, at: indexPath)
+                self?.save()
               }
             }
           }

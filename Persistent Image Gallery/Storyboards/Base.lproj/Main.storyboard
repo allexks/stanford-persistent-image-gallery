@@ -105,7 +105,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hX3-a8-v6r">
-                                            <rect key="frame" x="150" y="15.5" width="75.5" height="38.5"/>
+                                            <rect key="frame" x="346.5" y="15.5" width="75.5" height="38.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -142,14 +142,9 @@
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Image Gallery" id="hoO-lw-8U6">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="j8e-xe-kKu">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="j8e-xe-kKu">
                             <connections>
                                 <action selector="onTapDoneButton:" destination="fsF-vt-X93" id="Yfd-Xw-SH7"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="KTj-Qf-B6Y">
-                            <connections>
-                                <action selector="onTapSaveButton:" destination="fsF-vt-X93" id="1Vm-Xs-ovt"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
