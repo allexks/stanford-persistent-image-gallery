@@ -61,7 +61,7 @@ class ImageGalleryViewController: UIViewController {
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
-    fetcher.cache.removeAllCachedResponses()
+    fetcher.freeCache()
   }
   
   // MARK: - Actions

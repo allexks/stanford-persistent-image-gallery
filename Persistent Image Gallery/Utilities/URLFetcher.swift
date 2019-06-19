@@ -12,8 +12,8 @@ class URLFetcher {
   static let shared = URLFetcher()
   private init() {}
   
-  let cacheLimitInBytes = 50 * 1025 * 1024 // 50 MB
-  private(set) lazy var cache = URLCache(memoryCapacity: cacheLimitInBytes, diskCapacity: cacheLimitInBytes, diskPath: nil)
+  private let cacheLimitInBytes = 50 * 1025 * 1024 // 50 MB
+  private lazy var cache = URLCache(memoryCapacity: cacheLimitInBytes, diskCapacity: cacheLimitInBytes, diskPath: nil)
   
   func fetchImage(from url: URL, handler: @escaping (URL, UIImage, Data?, URLResponse?, Error?) -> Void) {
     URLSession.shared.dataTask(with: url.imageURL) { data, response, error in
@@ -47,5 +47,9 @@ class URLFetcher {
         }
       }
     }
+  }
+  
+  func freeCache() {
+    cache.removeAllCachedResponses()
   }
 }
