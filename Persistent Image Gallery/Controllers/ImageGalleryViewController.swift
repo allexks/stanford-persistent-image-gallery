@@ -59,6 +59,11 @@ class ImageGalleryViewController: UIViewController {
     }
   }
 
+  override func didReceiveMemoryWarning() {
+    super.didReceiveMemoryWarning()
+    fetcher.cache.removeAllCachedResponses()
+  }
+  
   // MARK: - Actions
   
   @IBAction func onPinchView(_ sender: UIPinchGestureRecognizer) {
